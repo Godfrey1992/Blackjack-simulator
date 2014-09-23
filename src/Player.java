@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class Player {
 	
 	String playerName;
+	boolean stickStatus = false;
 	ArrayList<Card> cards = new ArrayList<Card>();
 	
 	public Player(String name){
@@ -31,5 +32,13 @@ public class Player {
 			}
 		}
 		return cardValTotal;
+	}
+	
+	public void changeStickStatus(){
+		stickStatus = true;
+	}
+	
+	public boolean gettickStatus(){
+		return stickStatus;
 	}
 }

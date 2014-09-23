@@ -19,6 +19,9 @@ public class CardGame {
 	static int numberOfPlayers = 3;
 	static Deck deck;
 	static Card card;
+	static int roundCounter = 1;
+	static int i;
+	static boolean win = false;
 	
     public static void main(String[] args) {
 
@@ -61,7 +64,7 @@ public class CardGame {
 	
 	private static void showPlayerCardTotal(){
 		System.out.println(" ");
-		System.out.println("--------Calc-total--------");
+		System.out.println("--------Calculating-total--------");
 		for (int i = 0; i < players.size(); i++){
     		player = players.get(i);
     		System.out.println(player.getName()+" total is "+player.calculateTotal());
@@ -69,29 +72,80 @@ public class CardGame {
 	}
 	
 	private static void playGame(){
-		int roundCounter = 1;
-		System.out.println(" ");
-		System.out.println("--------Game-Round-"+ roundCounter +"-------");
-		
-		for(Player p: players){
-			int playerCardTotal = p.calculateTotal();
+			int s =0;
+		while(s < 5){
+			System.out.println(" ");
+			System.out.println("--------Game-Round-"+ roundCounter +"-------");
+			playRound();
+			roundCounter++;
+			s++;
+			i = 0;
+			if(win == true){
+				break;
+			}
+		}
+		System.out.println("ITS A DRAW");
+	}
+	
+	private static void playRound(){
+		while(i < players.size()){
+			Player p = players.get(i);
 			
-			if(playerCardTotal < 17){
-				System.out.println(p.getName()+" **Hit** with "+p.calculateTotal());
-				System.out.print(p.getName()+" recieves: ");
-				card = deck.dealCards();
-				p.getCards(card);
-				System.out.println(" ");
+			if(p.gettickStatus() == false){
+			
+				int playerCardTotal = p.calculateTotal();
 				
-			}else if(playerCardTotal >= 17 && playerCardTotal < 21){
-				System.out.print(p.getName()+" **Stick** with "+p.calculateTotal());
-				System.out.println(" ");
+				if(playerCardTotal < 17){
+					System.out.println(p.getName()+" **Hit** with "+p.calculateTotal());
+					System.out.print(p.getName()+" recieves: ");
+					card = deck.dealCards();
+					p.getCards(card);
+					i++;
+					System.out.println(" ");
+					
+				}else if(playerCardTotal >= 17 && playerCardTotal < 21){
+					System.out.println(p.getName()+" **Stick** with "+p.calculateTotal());
+					p.changeStickStatus();
+					i++;
+					System.out.println(" ");
+					
+				}else if(playerCardTotal > 21){
+					System.out.println(p.getName()+" **Bust** with "+p.calculateTotal());
+					
+					players.remove(i);
+					System.out.println(p.getName()+" was removed");
+					System.out.println(" ");
+					
+					// check is player is the last player
+					if (i != players.size()){
+						playRound();
+					}
+					i++;
 				
-			}else if (playerCardTotal > 21){
-				System.out.println(p.getName()+" **Bust** with "+p.calculateTotal());
-				System.out.println(p.getName()+" was removed");
-				//players.remove(p);
-				System.out.println(" ");
+				// If a player hits 21 exactly
+				}else if(playerCardTotal == 21){
+					System.out.println(p.getName() +" **WINS** with "+p.calculateTotal());
+					win = true;
+					break;
+					
+				}else{
+					
+				}
+			
+			// If all the player stick
+			}else{
+				int largestTotal = 0;
+				String playerName = null;
+				for (int i = 0; i < players.size(); i++){
+					p = players.get(i);
+					if(p.calculateTotal() > largestTotal){
+							largestTotal = p.calculateTotal();
+							playerName = p.getName();
+						}
+					}
+				System.out.println(playerName +" **WINS** with "+largestTotal);
+				win = true;
+				break;
 			}
 		}
 	}
