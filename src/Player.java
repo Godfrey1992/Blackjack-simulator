@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * Created By Godfrey Oguike 2014
+ * Class encapsulates individual player attributes and methods.
+ */
 
 public class Player {
 	
@@ -27,9 +31,10 @@ public class Player {
 			Card card = cards.get(i);
 			cardVal.add(card.getCardVal());
 			
-			for (int value: cardVal){
-				cardValTotal += value;
 			}
+		
+		for (int value: cardVal){
+			cardValTotal += value;
 		}
 		return cardValTotal;
 	}

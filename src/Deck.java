@@ -16,7 +16,7 @@ public class Deck {
 	int deckCounter = 0;
 	Card card;
 	
-	
+	// Constructor creates the deck.
 	public Deck(){
 		System.out.println("--------Generating-Deck--------");
 		for (suitCounter = 0; suitCounter < suits.length; suitCounter++){
@@ -32,13 +32,15 @@ public class Deck {
 		}
 	}
 	
+	// Randomizes the deck.
 	public void randomizeDeck(){
 		Collections.shuffle(deck);
 		System.out.println(" ");
 		System.out.println("--------Randomizing-Deck--------");
 		showDeck();
 	}
-
+	
+	// Displays all the cards in the deck
 	public void showDeck() {
 		System.out.println(" ");
 		System.out.println("--------New-Deck--------");
@@ -48,6 +50,7 @@ public class Deck {
 		}
 	}
 	
+	// Deals a card from the top of deck.
 	public Card dealCards(){
 		card = deck.get(0);
 		deck.remove(0);
